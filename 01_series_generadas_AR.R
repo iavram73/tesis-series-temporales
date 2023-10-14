@@ -1,4 +1,3 @@
-# Probando subir un pquete git
 
 library(forecast)
 
