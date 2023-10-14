@@ -1,5 +1,3 @@
-# Aprendiendo git
-
 library(forecast)
 
 # Voy a simular 1000 series AR(1), AR(2) y AR (3)
