@@ -1,16 +1,7 @@
 
-#library(tidyverse)
-#library(dplyr)
-#library(gridExtra)
-#library(tsm)
-#library(stats)
 library(forecast) 
 library(astsa) # sarima.sim
 
-
-# https://www.youtube.com/watch?v=UOPPjRQfcwI
-# https://www.youtube.com/watch?v=WjeGUs6mzXg
-# https://www.youtube.com/watch?v=IK67f3IItfw
 
 # ALGUNAS PRUEBITAS INICIALES
 

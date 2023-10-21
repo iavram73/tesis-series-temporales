@@ -10,11 +10,11 @@ library(forecast)
 #pronostico$mean # da el resultado de las predicciones
 #########################################################
 
-# Leo los datos de las series generadas con sarima_212_202_12
+# Leo los datos de las series generadas con sarima_111_101_12
 # Dejo afuera los primeros 100 datos para asegurar la estabilización
 # de la serie 
 
-sarima_series <- read.csv("data/muestra_sarima_212_202_12.csv")
+sarima_series <- read.csv("data/muestra_sarima_111_101_12.csv")
 sarima_series <- sarima_series[,101:600] # Saco los primeros 100 datos
 dim(sarima_series)
 
@@ -29,7 +29,7 @@ nombres_columnas <- c("t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10
 colnames(pred) <- nombres_columnas # asigno nombre a las columnas del df pred
 
 ###############################################################################
-# Hago un ajuste de las series con sarima_212_202_12  y hago las predicciones para 
+# Hago un ajuste de las series con sarima_111_101_12  y hago las predicciones para 
 # los 10 períodos siguientes
 
 N_rep <- 1000
@@ -39,8 +39,8 @@ set.seed(123)
 for(i in 1:N_rep){
   serie <- as.numeric(train[i,1:t_final]) # recorro cada serie
   print(paste(i, "a "))
-  ajuste <- try( Arima(serie, order = c(2, 1, 2),
-                       seasonal = list(order = c(2, 0, 2), period = 12),
+  ajuste <- try( Arima(serie, order = c(1, 1, 1),
+                       seasonal = list(order = c(1, 0, 1), period = 12),
                        method = "ML"), silent=TRUE)
   print(paste(i, "b "))
   if(!inherits(ajuste, "try-error")){
@@ -48,6 +48,7 @@ for(i in 1:N_rep){
     print(paste(i, "c "))
     if(!inherits(pronostico, "try-error") && length(pronostico)>0){
       pred[i,] <- pronostico$mean
+      print(i)
     }
   }
 }
@@ -57,10 +58,10 @@ for(i in 1:N_rep){
 dim(pred)  # 1000   10
 
 # Guardo las predicciones en csv en la carpeta "data" del proyecto
-write.csv(pred, file = "data/df_ECM_pred_sarima_212_202_12.csv", row.names = FALSE)
+write.csv(pred, file = "data/ECM_pred_sarima_111_101_12.csv", row.names = FALSE)
 
 ################################################################################
-# Hago lo mismo, pero ajustando con un modelo incorrecto: sarima_202_202_12
+# Hago lo mismo, pero ajustando con un modelo incorrecto: sarima_101_101_12
 
 pred <- data.frame(matrix(ncol = 10, nrow = 1000))
 colnames(pred) <- nombres_columnas
@@ -72,8 +73,8 @@ set.seed(123)
 for(i in 1:N_rep){
   serie <- as.numeric(train[i,1:t_final]) # recorro cada serie
   print(paste(i, "a "))
-  ajuste <- try( Arima(serie, order = c(2, 0, 2),
-                       seasonal = list(order = c(2, 0, 2), period = 12),
+  ajuste <- try( Arima(serie, order = c(1, 0, 1),
+                       seasonal = list(order = c(1, 0, 1), period = 12),
                        method = "ML"), silent=TRUE)
   print(paste(i, "b "))
   if(!inherits(ajuste, "try-error")){
@@ -90,10 +91,10 @@ for(i in 1:N_rep){
 dim(pred)  # 1000   10
 
 # Guardo las predicciones en csv en la carpeta "data" del proyecto
-write.csv(pred, file = "data/df_ECM_pred_sarima_202_202_12_fuera_mod.csv", row.names = FALSE)
+write.csv(pred, file = "data/ECM_pred_sarima_101_101_12_fuera_mod.csv", row.names = FALSE)
 
 ################################################################################
-# Ahora con otro incorrecto: sarima_010_202_12
+# Ahora con otro incorrecto: sarima_111_001_12
 
 pred <- data.frame(matrix(ncol = 10, nrow = 1000))
 colnames(pred) <- nombres_columnas
@@ -105,8 +106,8 @@ set.seed(123)
 for(i in 1:N_rep){
   serie <- as.numeric(train[i,1:t_final]) # recorro cada serie
   print(paste(i, "a "))
-  ajuste <- try(Arima(serie, order = c(0, 1, 0),
-                       seasonal = list(order = c(2, 0, 2), period = 12),
+  ajuste <- try(Arima(serie, order = c(1, 1, 1),
+                       seasonal = list(order = c(0, 0, 1), period = 12),
                        method = "ML"), silent=TRUE)
   print(paste(i, "b "))
   if(!inherits(ajuste, "try-error")){
@@ -123,5 +124,5 @@ for(i in 1:N_rep){
 dim(pred)  # 1000   10
 
 # Guardo las predicciones en csv en la carpeta "data" del proyecto
-write.csv(pred, file = "data/df_ECM_pred_sarima_010_202_12_fuera_mod.csv", row.names = FALSE)
+write.csv(pred, file = "data/ECM_pred_sarima_111_001_12_fuera_mod.csv", row.names = FALSE)
 
