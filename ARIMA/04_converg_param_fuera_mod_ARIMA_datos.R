@@ -1,12 +1,5 @@
 library(forecast)
-library(tidyverse)
-library(ggthemes)
-library(readr)
-library(ggplot2)
-library(gridExtra)
 
-
-#######################################################################
 # Explorar cual es la convergencia del phi1 y tita1 ajustado con ARIMA(1,1,1)
 # cuando los datos fueron generados por un ARIMA(2,1,1).
 

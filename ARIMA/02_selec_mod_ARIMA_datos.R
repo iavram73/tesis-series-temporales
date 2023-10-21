@@ -1,6 +1,107 @@
+
 library(forecast)
 
+# Seleccion de modelos.
+# Usamos las series generadas ARIMA (2,1,1) y probamos posibles combunaciones 
+# de orden. Seleccionamos el orden con el BIC/AIC. 
+# Reptimos Nrep veces y guardamos el orden seleccionado.
+# Lo hacemos para 3 valores de t_final
 
+# Trabajo con las series ya generadas en txt
+series_arima211 <- read.csv("data/muestra_arima211_0.7_0.2_-0.3.csv") # 1000 series
+# saco los primeros 100 datos de cada serie.
+series_arima211 <- series_arima211[,101:600]
+dim(series_arima211) # 1000  500
+View(series_arima211)
+
+# plot(as.numeric(series_arima211[10,]))
+
+# Hago una funcion para ARIMA (p,d,q):
+# Argumentos: una serie y los vectores de posibles p y q.
+# Devuelve un vector con p y q elegidos y los corresp bic, aic e ID.
+
+selec_modelo_arima_try <- function(serie, p_s, q_s, fila){
+  
+  combinaciones <- expand.grid(p_s,q_s) # tabla con la comb posibles de p_s y q_s
+  combinaciones$bic <- rep(NA,nrow(combinaciones)) # agrega columna vacia para llenar con los BIC
+  combinaciones$aic <- rep(NA,nrow(combinaciones)) # agrega columna vacia para llenar con los AIC
+  combinaciones$id <- paste0("(",combinaciones$Var1,",",combinaciones$Var2,")") # agrego columna de ID
+  
+  p_elegido_bic <- 0
+  q_elegido_bic <- 0
+  mod_elegido_bic <- c()
+  mod_elegido_aic <- c()
+  p_elegido_aic <- 0
+  q_elegido_aic <- 0
+  mod_elegido <- c()
+  
+  set.seed(123)
+  
+  for(i in 1:9) {
+    p <- combinaciones[i, 1]
+    q <- combinaciones[i, 2]
+    
+    tryCatch({
+      ajuste <- Arima(ts(serie), order = c(p, 1, q), method = "ML")
+      combinaciones[i, 3] <- ajuste$bic
+      combinaciones[i, 4] <- ajuste$aic
+    }, error = function(e) {
+      print(paste("encontramos un error en la combinacion p-q:", i, " de la fila: ", fila, " error: ", e))
+      combinaciones[i, 3] <- NA
+      combinaciones[i, 4] <- NA
+    })
+  }
+  # Si encuentra error en alguna combinacion de p y q, sigue adelante 
+  # y elige modelo entre las combinaciones para las cuales puede calcular.
+  posición_bic <- which.min(combinaciones$bic)
+  bic_elegido <- combinaciones$bic[posición_bic]
+  p_elegido_bic <- combinaciones$Var1[posición_bic]
+  
+  q_elegido_bic <- combinaciones$Var2[posición_bic]
+  id_elegido_bic <- combinaciones$id[posición_bic]
+  posición_aic <- which.min(combinaciones$aic)
+  aic_elegido <- combinaciones$aic[posición_aic]
+  p_elegido_aic <- combinaciones$Var1[posición_aic]
+  q_elegido_aic <- combinaciones$Var2[posición_aic]
+  id_elegido_aic <- combinaciones$id[posición_aic]
+  mod_elegido <-c(p_elegido_bic,q_elegido_bic,round(bic_elegido,2),id_elegido_bic,
+                  p_elegido_aic,q_elegido_aic,round(aic_elegido,2),id_elegido_aic)
+  
+  
+  mod_elegido
+}
+
+
+# Fijo los posibles p y q para probar ordenes
+p<- c(0,1,2)
+q<- c(0,1,2)
+t_final <-500 # (Esto lo cambio 500, 200, 50)
+
+# Armo una matriz para ir rellenando por filas con los vectores
+# que devuelve la funcion creada, en cada una de las 1000 repeticiones.
+
+modelos <- data.frame(matrix(NA,1000,8)) 
+colnames(modelos) <- c("p_bic", "q_bic", "BIC", "ID_bic",
+                       "p_aic", "q_aic", "AIC", "ID_aic")
+
+for(i in 1:1000){
+  serie <- as.numeric(series_arima211[i,1:t_final])
+  modelos[i,] <- selec_modelo_arima_try(serie,p,q,i)
+  print(i)
+}
+
+
+head(modelos)
+anyNA(modelos)
+dim(modelos)
+
+# Cuardo los archivos
+#write.csv(modelos, file = "data/selec_modelo_arima211_500.csv", row.names = TRUE)
+#write.csv(modelos, file = "data/selec_modelo_arima211_200.csv", row.names = TRUE)
+# write.csv(modelos, file = "data/selec_modelo_arima211_50.csv", row.names = TRUE)
+
+
+################################################################################
 # Seleccion de modelos.
 # Usamos las series generadas ARIMA (2,1,2) y probamos posibles combunaciones de orden.
 # Seleccionamos el orden con el BIC. 
@@ -81,12 +182,12 @@ t_final <-50 # (Esto lo cambio 500, 200, 50)
 # que devuelve la funcion creada, en cada una de las 1000 repeticiones.
 
 modelos <- data.frame(matrix(NA,1000,8)) 
-
+colnames(modelos) <- c("p_bic", "q_bic", "BIC", "ID_bic",
+                       "p_aic", "q_aic", "AIC", "ID_aic")
 for(i in 1:1000){
   serie <- as.numeric(series_arima212[i,1:t_final])
   modelos[i,] <- selec_modelo_arima_try(serie,p,q,i)
-  colnames(modelos) <- c("p_bic", "q_bic", "BIC", "ID_bic",
-                          "p_aic", "q_aic", "AIC", "ID_aic")
+  print(i)
 }
 
 View(modelos)
