@@ -174,7 +174,7 @@ colnames(arma_21_500)
 g1 <- arma_21_50 %>% ggplot(aes(ID_aic)) + 
   geom_bar(fill = alpha("gray", 0.5)) +
   geom_bar(data=subset(arma_21_50, ID_aic=="(2,1)"), fill = alpha("tomato", 0.5), size = 0.5) +
-  labs(x="",y="Frecuencia") + ggtitle("Métrica AIC", subtitle = "50 observaciones por serie") +
+  labs(x="",y="Frecuencia") + ggtitle("Métrica AIC", subtitle = "50 observaciones") +
   scale_y_continuous(expand = c(0, 0), limits = c(0,500)) +  # Agregamos expand = c(0, 0)
   theme_bw() +
   theme(panel.grid.major.x = element_blank(), # Saca lineas de cuadricula
@@ -187,7 +187,7 @@ g2 <- arma_21_200 %>% ggplot(aes(ID_aic)) +
   geom_bar(fill = alpha("gray", 0.5)) +
   geom_bar(data=subset(arma_21_200, ID_aic=="(2,1)"), fill=alpha("orange",0.5), size=0.5) +
   geom_bar(data = puntos, aes(opciones), colour = "gray", size = 0.5)+
-  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "200 observaciones por serie") +
+  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "200 observaciones") +
   scale_y_continuous(expand = c(0, 0), limits = c(0,500)) +  # Agregamos expand = c(0, 0)
   theme_bw() +
   theme(panel.grid.major.x = element_blank(), # Saca lineas de cuadricula
@@ -199,7 +199,7 @@ g3 <- arma_21_500 %>% ggplot(aes(ID_aic)) +
   geom_bar(fill = alpha("gray", 0.5)) +
   geom_bar(data=subset(arma_21_500, ID_aic=="(2,1)"), fill=alpha("#26A63A",0.5), size=0.5) +
   geom_bar(data = puntos_b, aes(opciones), colour = "gray", size = 0.5)+
-  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "500 observaciones por serie") +
+  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "500 observaciones") +
   scale_y_continuous(expand = c(0, 0), limits = c(0,500)) +  # Agregamos expand = c(0, 0)
   theme_bw() +
   theme(panel.grid.major.x = element_blank(), # Saca lineas de cuadricula
@@ -209,7 +209,7 @@ g3 <- arma_21_500 %>% ggplot(aes(ID_aic)) +
 g4 <- arma_21_50 %>% ggplot(aes(ID_bic)) + 
   geom_bar(fill = alpha("gray", 0.5)) +
   geom_bar(data=subset(arma_21_50, ID_bic=="(2,1)"),fill = alpha("tomato", 0.5), size=0.5) +
-  labs(x="",y="Frecuencia") + ggtitle("Métrica BIC", subtitle = "50 observaciones por serie") +
+  labs(x="",y="Frecuencia") + ggtitle("Métrica BIC", subtitle = "50 observaciones") +
   scale_y_continuous(expand = c(0, 0), limits = c(0,500)) +  # Agregamos expand = c(0, 0)
   theme_bw() +
   theme(panel.grid.major.x = element_blank(), # Saca lineas de cuadricula
@@ -222,7 +222,7 @@ g5 <- arma_21_200 %>% ggplot(aes(ID_bic)) +
   geom_bar(fill = alpha("gray", 0.5)) +
   geom_bar(data=subset(arma_21_200, ID_bic=="(2,1)"),fill=alpha("orange",0.5), size=0.5) +
   geom_bar(data = puntos_b, aes(opciones), colour = "black", size = 0.5)+
-  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "200 observaciones por serie") +
+  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "200 observaciones") +
   scale_y_continuous(expand = c(0, 0), limits = c(0,500)) +  # Agregamos expand = c(0, 0)
   theme_bw() +
   theme(panel.grid.major.x = element_blank(), # Saca lineas de cuadricula
@@ -234,7 +234,7 @@ g6 <- arma_21_500 %>% ggplot(aes(ID_bic)) +
   geom_bar(fill = alpha("gray", 0.5)) +
   geom_bar(data=subset(arma_21_500, ID_bic=="(2,1)"), fill=alpha("#26A63A",0.5), size=0.5) +
   geom_bar(data = puntos_b, aes(opciones), colour = "black", size = 0.5)+
-  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "500 observaciones por serie") +
+  labs(x="",y="Frecuencia") + ggtitle("", subtitle = "500 observaciones") +
   scale_y_continuous(expand = c(0, 0), limits = c(0,500)) +  # Agregamos expand = c(0, 0)
   theme_bw() +
   theme(panel.grid.major.x = element_blank(), # Saca lineas de cuadricula
@@ -244,7 +244,7 @@ g6 <- arma_21_500 %>% ggplot(aes(ID_bic)) +
 selec_arma_21 <- grid.arrange(g1,g2,g3,g4,g5,g6, nrow=2)
 
 # Guarda el gráfico en formato PNG con alta resolución (300 dpi)
-ggsave("output/selec_arma_21.png", selec_arma_21,dpi = 300, width = 9, height = 5, units = "in")
+ggsave("output/selec_arma_21.png", selec_arma_21,dpi = 300, width = 9, height = 4.5, units = "in")
 
 
 # Leo los datos guardados para arma22
@@ -514,7 +514,7 @@ selec_arima_211 <- grid.arrange(g7,g8,g9,g10,g11,g12, nrow=2)
 
 
 # Guarda el gráfico en formato PNG con alta resolución (300 dpi)
-ggsave("output/selec_arima_211.png", selec_arima_211,dpi = 300, width = 9, height = 5, units = "in")
+ggsave("output/selec_arima_211.png", selec_arima_211,dpi = 300, width = 9, height = 4.5, units = "in")
 
 
 ########################################################################

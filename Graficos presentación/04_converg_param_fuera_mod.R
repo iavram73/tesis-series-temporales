@@ -21,8 +21,8 @@ ga <- ggplot(df_phis_conv_ar, aes(x = phi_1_AR1)) +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
 
-#ggsave("output/conv-phi1-fuera-mod.png", ga,
-#       dpi = 300, width = 5, height = 3, units = "in")
+ggsave("output/conv-phi1-fuera-mod.png", ga,
+       dpi = 300, width = 5, height = 3, units = "in")
   
 
 # title = expression(paste("Histograma de ","\u03d5"[1]," ajustado con AR(1). Porceso real AR(3).")),
@@ -41,12 +41,13 @@ gb <- ggplot(titas_conv_ma, aes(x = titas1_ma1)) +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
 
-#ggsave("output/conv-tita1-fuera-mod.png", gb,
-#       dpi = 300, width = 5, height = 3, units = "in")
+ggsave("output/conv-tita1-fuera-mod.png", gb,
+       dpi = 300, width = 5, height = 3, units = "in")
 
-conv_phi1_tita1_fuera_mod <- grid.arrange(ga,gb, nrow=1)
-ggsave("output/conv_phi1_tita1_fuera_mod.png", 
-       conv_phi1_tita1_fuera_mod,dpi = 300, width = 6, height = 2.5, units = "in")
+#conv_phi1_tita1_fuera_mod <- grid.arrange(ga,gb, nrow=1)
+
+#ggsave("output/conv_phi1_tita1_fuera_mod.png", 
+#       conv_phi1_tita1_fuera_mod,dpi = 300, width = 6, height = 2.5, units = "in")
 
 
 # ga+gb + plot_annotation(tag_levels = "a")
@@ -61,12 +62,15 @@ ggsave("output/conv_phi1_tita1_fuera_mod.png",
 g1 <- ggplot(df_phis_conv_ar, aes(x = phi_1_AR2)) + 
   geom_histogram(colour = "darkgray", fill = "white", bins = 18, aes(y = ..density..))+
   geom_density(lwd = 0.5,linetype = 1, colour = "tomato")+
-  labs(subtitle = "a)", y= "densidad",x= expression("\u03d5"[1]))+
+  labs(subtitle = "", y= "densidad",x= expression("\u03d5"[1]))+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 7))+
   geom_vline(xintercept = 0.7, linetype="dashed", color="#26A63A",lwd=0.8)+
   xlim(c(0.4, 0.9)) + theme_bw()+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
+
+ggsave("output/conv-phi1-fuera-mod-ar2.png", g1,
+       dpi = 300, width = 5, height = 3, units = "in")
 
 #title = expression(paste("Histograma de ","\u03C6"[1]," ajustado con AR(2). Porceso real AR(3)."))
 
@@ -82,6 +86,9 @@ g2 <- ggplot(df_phis_conv_ar, aes(x = phi_2_AR2)) +
 
 # title = expression(paste("Histograma de ","\u03C6"[2]," ajustado con AR(2). Porceso real AR(3).")),
 
+ggsave("output/conv-phi2-fuera-mod-ar2.png", g2,
+       dpi = 300, width = 5, height = 3, units = "in")
+
 grid.arrange(g1,g2, nrow=1)
 
 
@@ -91,12 +98,15 @@ grid.arrange(g1,g2, nrow=1)
 g3 <- ggplot(titas_conv_ma, aes(x = titas1_ma2)) + 
   geom_histogram(colour = "darkgray", fill = "white", bins = 20, aes(y = ..density..))+
   geom_density(lwd = 0.5,linetype = 1, colour = "tomato")+
-  labs(subtitle = "b)", y= "densidad", x= expression("\u03B8"[1]))+
+  labs(subtitle = "", y= "densidad", x= expression("\u03B8"[1]))+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 7))+
   geom_vline(xintercept = 0.7, linetype="dashed", color="#26A63A",lwd=0.8)+
   xlim(c(0.5, 1.1)) + theme_bw()+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
+
+ggsave("output/conv-tita1-fuera-mod-ma2.png", g3,
+       dpi = 300, width = 5, height = 3, units = "in")
 
 # subtitle = expression(paste("Histograma de ","\u03B8"[1]," ajustado con MA(2). Proceso real MA(3)."))
 
@@ -110,10 +120,16 @@ g4 <- ggplot(titas_conv_ma, aes(x = titas2_ma2)) +
   xlim(c(0.1, 0.8)) + theme_bw()+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
+
+
+ggsave("output/conv-tita2-fuera-mod-ma2.png", g4,
+       dpi = 300, width = 5, height = 3, units = "in")
+
+
 # subtitle = expression(paste("Histograma de ","\u03B8"[2]," ajustado con MA(2). Proceso real MA(3)."))
 
-conv_phis12_titas12_fuera_mod <- grid.arrange(g1,g2,g3,g4,nrow=2)
-ggsave("output/conv-phis12-titas12-fuera-mod.png", conv_phis12_titas12_fuera_mod,dpi = 300, width = 7, height =4.5, units = "in")
+#conv_phis12_titas12_fuera_mod <- grid.arrange(g1,g2,g3,g4,nrow=2)
+#ggsave("output/conv-phis12-titas12-fuera-mod.png", conv_phis12_titas12_fuera_mod,dpi = 300, width = 7, height =4.5, units = "in")
 
 
 
@@ -126,7 +142,7 @@ colnames(dist_param_arma11)
 g5 <- ggplot(dist_param_arma11, aes(x = phis1)) + 
   geom_histogram(colour = "darkgray", fill = "white", bins = 20, aes(y = ..density..))+
   geom_density(lwd = 0.5,linetype = 1, colour = "tomato")+
-  labs(subtitle = "a)", y= "densidad",x= expression("\u03d5"[1]))+
+  labs(subtitle = "", y= "densidad",x= expression("\u03d5"[1]))+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 25))+
   geom_vline(xintercept = 0.7, linetype="dashed", color="#26A63A",lwd=0.8)+
   theme_bw()+
@@ -136,20 +152,19 @@ g5 <- ggplot(dist_param_arma11, aes(x = phis1)) +
 g6 <- ggplot(dist_param_arma11, aes(x = titas1)) + 
   geom_histogram(colour = "darkgray", fill = "white", bins = 22, aes(y = ..density..))+
   geom_density(lwd = 0.5,linetype = 1, colour = "tomato")+
-  labs(subtitle = "b)", y= "densidad", x= expression("\u03B8"[1]))+
+  labs(subtitle = "", y= "densidad", x= expression("\u03B8"[1]))+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 10))+
   geom_vline(xintercept = -0.3, linetype="dashed", color="#26A63A",lwd=0.8)+
   xlim(c(-0.8, -0.2)) + theme_bw()+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
 
-grid.arrange(g5,g6,nrow=1)
+#grid.arrange(g5,g6,nrow=1)
 
-
-dist_param_arma11_fuera_mod <- grid.arrange(g5,g6,nrow=1)
-
-ggsave("output/dist-param-arma11-fuera-mod.png", dist_param_arma11_fuera_mod,
-       dpi = 300, width = 6, height = 2.5, units = "in")
+ggsave("output/conv-phi1-fuera-mod-arma.png", g5,
+       dpi = 300, width = 5, height = 3, units = "in")
+ggsave("output/conv-tita1-fuera-mod-arma.png", g6,
+       dpi = 300, width = 5, height = 3, units = "in")
 
 #######################################################################
 # ARIMA
@@ -161,7 +176,7 @@ colnames(dist_param)
 g1 <- ggplot(dist_param, aes(x = phis1)) + 
   geom_histogram(colour = "darkgray", fill = "white", bins = 22, aes(y = ..density..))+
   geom_density(lwd = 0.5,linetype = 1, colour = "tomato")+
-  labs(subtitle = "b)", y= "densidad", x= expression("\u03d5"[1]))+
+  labs(subtitle = "", y= "densidad", x= expression("\u03d5"[1]))+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 25))+
   geom_vline(xintercept = 0.7, linetype="dashed", color="#26A63A",lwd=0.8)+
   xlim(c(0.65,1)) + theme_bw()+
@@ -172,17 +187,20 @@ g1 <- ggplot(dist_param, aes(x = phis1)) +
 g2 <- ggplot(dist_param, aes(x = titas1)) + 
   geom_histogram(colour = "darkgray", fill = "white", bins = 22, aes(y = ..density..))+
   geom_density(lwd = 0.5,linetype = 1, colour = "tomato")+
-  labs(subtitle = "b)", y= "densidad", x= expression("\u03B8"[1]))+
+  labs(subtitle = "", y= "densidad", x= expression("\u03B8"[1]))+
   scale_y_continuous(expand = c(0, 0), limits = c(0, 10))+
   geom_vline(xintercept = -0.3, linetype="dashed", color="#26A63A",lwd=0.8)+
   xlim(c(-0.7,-0.25)) + theme_bw()+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
 
-dist_param_arima111_fuera_mod <- grid.arrange(g1,g2,nrow=1)
+ggsave("output/conv-phi1-fuera-mod-arima.png", g1,
+       dpi = 300, width = 5, height = 3, units = "in")
+ggsave("output/conv-tita1-fuera-mod-arima.png", g2,
+       dpi = 300, width = 5, height = 3, units = "in")
 
-ggsave("output/dist-param-arima-fuera-mod.png", dist_param_arima111_fuera_mod,
-       dpi = 300, width = 6, height = 2.5, units = "in")
+
+
 
 #######################################################################
 # SARIMA
