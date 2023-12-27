@@ -37,8 +37,11 @@ tunel_x_12 <- window(tunel, start = c(2016, 1),end = c(2016, 12)) # datos secret
 
 # Modelo seleccionado por AIC/BIC
 mod_AB <- Arima(tunel_12, order = c(3, 0, 0),
-                seasonal = list(order = c(0, 1, 1), period = 12),
+                seasonal = list(order = c(0, 1, 1), 
+                period = 12),
                 include.drift = FALSE)
+mod_AB
+
 
 # Modelo seleccionado por CV
 mod_CV <- Arima(tunel_12, order = c(1, 0, 1),
